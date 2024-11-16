@@ -136,7 +136,7 @@ export default function CVPage(props: Props) {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 p-6 md:p-12 ${quicksand.className}`}>
+    <div className={`min-h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-white to-amber-50 p-6 md:p-12 ${quicksand.className}`}>
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
         <div className="flex justify-between items-start mb-8">
           <div>
@@ -162,7 +162,7 @@ export default function CVPage(props: Props) {
           </div>
           <Button onClick={handleShare} variant="outline" className="border-orange-200 hover:bg-orange-50">
             <Share2 className="mr-2 h-4 w-4" />
-            Share CV
+            
           </Button>
         </div>
 
