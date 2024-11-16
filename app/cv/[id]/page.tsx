@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation"
 import { ClipLoader } from "react-spinners"
 import { Share2, Linkedin, Github } from 'lucide-react'
@@ -54,11 +54,12 @@ interface CV {
   }>
 }
 type Props = {
-  params: {
+  params: Promise<{
       id: string;
-  }
+  }>
 }
-export default function CVPage({params}: Props) {
+export default function CVPage(props: Props) {
+  const params = use(props.params);
   const { id } = params;
   const [cv, setCV] = useState<CV | null>(null)
   const [loading, setLoading] = useState(true)
