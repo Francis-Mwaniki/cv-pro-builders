@@ -3,8 +3,18 @@ import type { NextRequest } from "next/server";
 import * as jose from 'jose';
 
 export async function middleware(request: NextRequest) {
+  // Check if the route is one of our public routes
+  const isPublicApiRoute = /^\/api\/cv\/[^\/]+$/.test(request.nextUrl.pathname); // Matches /api/cv/{id}
+  const isPublicCvRoute = /^\/cv\/[^\/]+$/.test(request.nextUrl.pathname); // Matches /cv/{id}
+  
+  // If it's a public route, allow access without authentication
+  if (isPublicApiRoute || isPublicCvRoute) {
+    return NextResponse.next();
+  }
+
   const token = request.cookies.get("token")?.value;
 
+  // Handle missing token
   if (!token) {
     if (request.nextUrl.pathname.startsWith('/cv')) {
       return NextResponse.redirect(new URL('/login', request.url));
@@ -32,5 +42,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/cv/:path*", "/cv"],
+  matcher: [
+    // Protected routes
+    "/api/cv",
+    "/cv",
+    // Public routes (still need to go through middleware for consistent handling)
+    "/api/cv/:id*",
+    "/cv/:id*"
+  ],
 };
